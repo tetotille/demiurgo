@@ -2,22 +2,29 @@
 
 source package.fish
 source api/small/small.fish
+source api/large/large.fish
 # Welcome to the API Frameworks Generator
 # This script will help you scaffold a new API project.
 
+set DEV 1
+
 function main
+    if test $DEV = 1
+        echo "Running in development mode"
+        rm -rf project
+    end
 
     # --- Welcome Message ---
-    echo "🚀 Welcome to the API Frameworks Generator!"
-    echo "Let's set up a new API project for you."
+    echo "🚀 Bienvenido al generador de API!"
+    echo "Creemos juntos una nueva API para usted."
     echo "------------------------------------------"
     echo ""
 
     # 1. Ask for project name
-    echo "Project Name"
+    echo "Nombre del proyecto"
     read project_name
 
-    echo "Author"
+    echo "Autor"
     read author_name
 
     echo "Email"
@@ -26,27 +33,28 @@ function main
     mkdir project
     cd project
 
-    # 3. Ask for technology choices (Poetry vs. pip)
-    echo -e "Technology Choice:\n1.Poetry\n2.pip"
-    read tech_choice
-
-    select_package $tech_choice $project_name $author_name $email
-
     # 2. Ask for API size (small, medium, large)
-    echo -e 'API Size:\n1.Small\n2.Medium\n3.Large'
+    echo -e 'Tamaño de la API:\n1.Pequeña\n2.Mediana\n3.Grande'
     read -d , api_size
     switch $api_size
         case "1"
+            select_package 2 $project_name $author_name $email
             small
             ;;
         case "2"
+            # 3. Ask for technology choices (Poetry vs. pip)
+            echo -e "Gestor de paquetes:\n1.Poetry\n2.pip"
+            read tech_choice
+
+            select_package $tech_choice $project_name $author_name $email
             medium
             ;;
         case "3"
+            select_package 1 $project_name $author_name $email
             large
             ;;
         case *
-            echo "Invalid choice"
+            echo "Opción Inválida"
             exit 1
             ;;
     end
@@ -60,9 +68,9 @@ function main
     # 5. Copy templates and generate the project
 
 
-    echo "Initialization complete. The generator is ready to be built."
-    echo "Selected: $project_name, $api_size, $tech_choice"
-    echo ""
+    # echo "Initialization complete. The generator is ready to be built."
+    # echo "Selected: $project_name, $api_size, $tech_choice"
+    # echo ""
 end
 
 main
