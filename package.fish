@@ -8,7 +8,7 @@ function select_package
             echo "Poetry"
             pip install poetry
 
-            poetry init -q --name=$argv[2] --author=$argv[3] -n
+            poetry init -q --name=$argv[2] --author=$argv[3] --python="^3.12" -n
 
         case "2"
             echo "pip"
